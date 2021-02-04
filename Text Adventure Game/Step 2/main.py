@@ -29,4 +29,4 @@ else:
     if outcome_hiding < 2:
         print("The goblins haven't noticed a thing, you hear them pass as they talk loudly amongst themselves.")
     else:
-        print("Apparently your scent has lingerd on the path, you should have taken a bath. You see one of the goblins sniff around and advancing towards you. The rest of the goblins follow excitedly. It's no use to run and you aren't prepared to fight. You let yourself be taken captive and taken to the leader of the goblins")
+        print("Apparently your scent has lingered on the path, you should have taken a bath. You see one of the goblins sniff around and advancing towards you. The rest of the goblins follow excitedly. It's no use to run and you aren't prepared to fight. You let yourself be taken captive and are taken to the leader of the goblins")

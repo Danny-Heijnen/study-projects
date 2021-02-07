@@ -15,4 +15,8 @@ Learning goals: Randomizer function.
 
 Step 3: Introduce a player object with health and a potion to gain back health.
 
-Learning goals: Working with objects and UML diagrams for objects
+Learning goals: Working with objects and UML diagrams for objects.
+
+Step 4: Use separate text files for the rooms and several texts like the introduction.
+
+Learning goals: Basic file handling and working some more with lists and objects.

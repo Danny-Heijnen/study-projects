@@ -1,11 +1,40 @@
-# Import OS for clearing the screen in the function encounter(). This is not currently in use, but can be uncommented when using the program in a Linux or Windows terminal.
-#import os
+# Import OS for the scandir() function.
+import os
+
+# Import random for the randrange() function.
+import random
+
+# Describe a class Room that will be used in the encounters.
+class Room:
+
+    # Initialize a Room object to create a Room with 4 texts to use in the encounter.
+    def __init__(self, room_name_text, description_text, attack_text, flee_text, health_potion_text):
+        self.room_name = room_name_text
+        self.description = description_text
+        self.attack = attack_text
+        self.flee = flee_text
+        self.health_potion = health_potion_text
+
+    def get_text_room_name(self):
+        return self.room_name
+
+    def get_text_description(self):
+        return self.description
+
+    def get_text_attack(self):
+        return self.attack
+
+    def get_text_flee(self):
+        return self.flee
+
+    def get_text_health_potion(self):
+        return self.health_potion
 
 
 # Describe a class Player that can be used in the different encounters.
 class Player:
 
-    # Initiate a Player class to create a player with 2 health and 0 health potions. This player will be used to play the game.
+    # Initialize a Player object to create a player with 2 health and 0 health potions. This player will be used to play the game.
     def __init__(self):
         self.health = 2
         self.potion = 0
@@ -47,10 +76,7 @@ class Player:
 
 
 # Render an encounter where the player enters a room and makes a choice.
-def encounter(player, room_text, attack_text, flee_text, potion_text):
-
-    # Command to clear the terminal screen in Windows and Linux. (Doesn't work in PyCharm, but preferred in a Windows or Linux terminal)
-    #os.system("cls" if os.name == "nt" else "clear")
+def encounter(player, room):
 
     # Clear the screen. This is not an elegant solution, but os.system("cls") doesn't work because PyCharm works with a Python shell, not a real Windows terminal.
     print("\n" * 100)
@@ -68,7 +94,7 @@ def encounter(player, room_text, attack_text, flee_text, potion_text):
         pass
 
     # Print the description of the current room or situation.
-    print("\n" + room_text + "\n")
+    print("\n" + room.get_text_description() + "\n")
 
     # Describe the choice to attack or flee.
     print("You can choose to attack the creature (1), or to flee (2)")
@@ -82,11 +108,11 @@ def encounter(player, room_text, attack_text, flee_text, potion_text):
 
     # Print the appropriate text for the chosen action.
     if action == "1":
-        print("\n" + attack_text)
+        print("\n" + room.get_text_attack())
     elif action == "2":
-        print("\n" + flee_text)
+        print("\n" + room.get_text_flee())
     elif action == "3":
-        print("\n" + potion_text)
+        print("\n" + room.get_text_health_potion())
         player.use_potion() # If the player uses a potion: Increase health, decrease number of potions.
 
 
@@ -96,30 +122,63 @@ def next_encounter():
     # Request an <enter> to proceed.
     input("\nPress <enter> to advance to the next room:")
 
+# Add newline characters to the string after every dot to improve readability. Return the new string.
+def add_newline(string):
+
+    new_string = string.replace(". ", ".\n")
+
+    return new_string
+
 
 def main():
 
     # Create a player
     player1 = Player()
 
+    # Create an empty list that will hold room objects.
+    room_object_list = []
+
+    # Create a room object for every text file in the directory ./Rooms and add them to the list room_object_list.
+    for file_name in os.scandir("./Rooms"):
+
+        # Open the text file
+        file = open(file_name)
+
+        # Create an empty list of lines to fill with the lines of text (strings).
+        list_of_lines = []
+
+        # Add the line to the list of lines. Take away the newline character at the end if there is one.
+        for line in file:
+            if line[-1] == "\n":
+                list_of_lines.append(add_newline(line[:-1]))
+            else:
+                list_of_lines.append(add_newline(line))
+
+        # Create a room object and add it to the list of room objects.
+        room_object_list.append(Room(*list_of_lines))
+
+
+    #TODO add a function or a few lines of code to create a a random selection of rooms from the list of room objects.
+
+    number_of_rooms = input("How many rooms do you want to play? ")
+
+        while number_of_rooms > 4:
+            number_of_rooms = input("There are only 4 rooms. How many rooms do you want to play? ")
+
+    for i in range(number_of_rooms):
 
 
     # Start the first encounter.
-    encounter(player1, "You enter a hall with a goblin.\nHe looks angry that you disturbed his feast of flame-grilled adventurer.\nHe stands up, dagger in hand and begins to approach you.",
-              "You attack the goblin, his menacing voice lets out a last squeal as he is cleft in twin by your longsword.",
-              "You quickly dart past the goblin with a nimble zig-zag.\nYou manage to sneak throught the door at the other end of the hall as you firmly close it behind you with a loud bang.",
-              "You take a health potion, increasing you health by 1 point.\nYou manage to hold the goblin at bay with you shield and shove him out of the way.\nThen you leave the room, using the door at the far end of the hall.")
+    encounter(player1, room_object_list[0])
     next_encounter()
 
     # Give the player a potion.
     player1.add_potion()
 
-    # Start the next encounter to see if the added potion changes the dialogue.
-    encounter(player1,
-              "You enter a hall with a goblin.\nHe looks angry that you disturbed his feast of flame-grilled adventurer.\nHe stands up, dagger in hand and begins to approach you.",
-              "You attack the goblin, his menacing voice lets out a last squeal as he is cleft in twin by your longsword.",
-              "You quickly dart past the goblin with a nimble zig-zag.\nYou manage to sneak throught the door at the other end of the hall as you firmly close it behind you with a loud bang.",
-              "You take a health potion, increasing you health by 1 point.\nYou manage to hold the goblin at bay with you shield and shove him out of the way.\nThen you leave the room, using the door at the far end of the hall.")
+    # Start the next encounter.
+    encounter(player1, room_object_list[1])
+
+
     next_encounter()
 
 main()

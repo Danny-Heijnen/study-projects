@@ -67,6 +67,7 @@ class Player:
         if self.potion <= 0:
             return False
 
+    # Return the number of potions that the player has.
     def get_potions(self):
         return self.potion
 
@@ -138,6 +139,9 @@ def main():
     # Create an empty list that will hold room objects.
     room_object_list = []
 
+    # Create an empty list that will hold the current playlist of rooms.
+    room_playlist = []
+
     # Create a room object for every text file in the directory ./Rooms and add them to the list room_object_list.
     for file_name in os.scandir("./Rooms"):
 
@@ -157,29 +161,29 @@ def main():
         # Create a room object and add it to the list of room objects.
         room_object_list.append(Room(*list_of_lines))
 
+    # Ask the player how many rooms to play and randomly add that many rooms to the playlist.
+    number_of_rooms = int(input("How many rooms do you want to play? "))
 
-    #TODO add a function or a few lines of code to create a a random selection of rooms from the list of room objects.
+    # If the player has entered more than 4 rooms, request a lower number.
+    while number_of_rooms > 4:
+        number_of_rooms = int(input("There are only 4 rooms. How many rooms do you want to play? "))
 
-    number_of_rooms = input("How many rooms do you want to play? ")
+    # Pick a room at random from the the list with room objects. Add as many rooms as the player requested.
+    while int(number_of_rooms) > 0:
+        random_index = random.randrange(len(room_object_list))
+        room_playlist.append(room_object_list[random_index])
+        del room_object_list[random_index]
+        number_of_rooms -= 1
 
-        while number_of_rooms > 4:
-            number_of_rooms = input("There are only 4 rooms. How many rooms do you want to play? ")
+    # Play an encounter for every room in the playlist.
+    for i in range(len(room_playlist)):
 
-    for i in range(number_of_rooms):
+        # Start the first encounter.
+        encounter(player1, room_playlist[i])
+        next_encounter()
 
-
-    # Start the first encounter.
-    encounter(player1, room_object_list[0])
-    next_encounter()
-
-    # Give the player a potion.
-    player1.add_potion()
-
-    # Start the next encounter.
-    encounter(player1, room_object_list[1])
-
-
-    next_encounter()
+    # Print a victory message.
+    print("You have escaped the dungeon with your life!")
 
 main()
 

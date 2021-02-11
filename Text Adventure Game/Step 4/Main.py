@@ -130,6 +130,14 @@ def add_newline(string):
 
     return new_string
 
+# Add a function to check if a string is a number.
+def input_is_number(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
+
 
 def main():
 
@@ -161,8 +169,18 @@ def main():
         # Create a room object and add it to the list of room objects.
         room_object_list.append(Room(*list_of_lines))
 
+    # Set sentinel value:
+    number_of_rooms = "a"
+
     # Ask the player how many rooms to play and randomly add that many rooms to the playlist.
-    number_of_rooms = int(input("How many rooms do you want to play? "))
+    while not input_is_number(number_of_rooms):
+        number_of_rooms = input("Please enter the number of rooms you want to play: ")
+
+    number_of_rooms = int(number_of_rooms)
+
+    # If the player has entered a negative number, request a higher number.
+    while number_of_rooms < 0:
+            number_of_rooms = int(input("You cannot play a negative number of rooms, please enter a number between 0 and 4: "))
 
     # If the player has entered more than 4 rooms, request a lower number.
     while number_of_rooms > 4:
@@ -183,7 +201,7 @@ def main():
         next_encounter()
 
     # Print a victory message.
-    print("You have escaped the dungeon with your life!")
+    print("\nYou have escaped the dungeon with your life!")
 
 main()
 

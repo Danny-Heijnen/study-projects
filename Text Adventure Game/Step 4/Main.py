@@ -4,6 +4,7 @@ import os
 # Import random for the randrange() function.
 import random
 
+
 # Describe a class Room that will be used in the encounters.
 class Room:
 
@@ -104,17 +105,24 @@ def encounter(player, room):
     if player.has_potion():
         print("You can also use a potion (3) to increase your health by 1 point.")
 
-    # Request an action from the player.
-    action = input("\nWhat action do you want to take? ")
+    # Set a sentinel value for action.
+    action = "a"
 
-    # Print the appropriate text for the chosen action.
-    if action == "1":
+    # Request an action from the player.
+    while not input_validation2(action):
+        action = input("\nWhat action do you want to take? ")
+
+    # Convert the string input to an integer.
+    action = int(action)
+
+    # Print the appropriate text for the chosen action and change health and potions if a potions is used.
+    if action == 1:
         print("\n" + room.get_text_attack())
-    elif action == "2":
+    elif action == 2:
         print("\n" + room.get_text_flee())
-    elif action == "3":
+    elif action == 3:
         print("\n" + room.get_text_health_potion())
-        player.use_potion() # If the player uses a potion: Increase health, decrease number of potions.
+        player.use_potion()
 
 
 # Pause for a moment and allow the player to choose when to proceed to the next room.
@@ -123,6 +131,7 @@ def next_encounter():
     # Request an <enter> to proceed.
     input("\nPress <enter> to advance to the next room:")
 
+
 # Add newline characters to the string after every dot to improve readability. Return the new string.
 def add_newline(string):
 
@@ -130,11 +139,27 @@ def add_newline(string):
 
     return new_string
 
-# Add a function to check if a string is a number.
-def input_is_number(string):
+
+# Add a function to check if a given string is a number between 0 and 4 (inclusive).
+def input_validation1(string):
     try:
         int(string)
-        return True
+        if 0 <= int(string) <= 4:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
+
+
+# Add a function to check if a given string is a number between 1 and 3 (inclusive).
+def input_validation2(string):
+    try:
+        int(string)
+        if 1 <= int(string) <= 3:
+            return True
+        else:
+            return False
     except ValueError:
         return False
 
@@ -173,18 +198,11 @@ def main():
     number_of_rooms = "a"
 
     # Ask the player how many rooms to play and randomly add that many rooms to the playlist.
-    while not input_is_number(number_of_rooms):
-        number_of_rooms = input("Please enter the number of rooms you want to play: ")
+    while not input_validation1(number_of_rooms):
+        number_of_rooms = input("Please enter a number between 0 and 4 for the number of rooms you want to play: ")
 
+    # Convert the string input to an integer.
     number_of_rooms = int(number_of_rooms)
-
-    # If the player has entered a negative number, request a higher number.
-    while number_of_rooms < 0:
-            number_of_rooms = int(input("You cannot play a negative number of rooms, please enter a number between 0 and 4: "))
-
-    # If the player has entered more than 4 rooms, request a lower number.
-    while number_of_rooms > 4:
-        number_of_rooms = int(input("There are only 4 rooms. How many rooms do you want to play? "))
 
     # Pick a room at random from the the list with room objects. Add as many rooms as the player requested.
     while int(number_of_rooms) > 0:
@@ -203,5 +221,5 @@ def main():
     # Print a victory message.
     print("\nYou have escaped the dungeon with your life!")
 
-main()
 
+main()

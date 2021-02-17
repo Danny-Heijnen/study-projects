@@ -1,5 +1,4 @@
 import secrets
-import sys
 
 
 # Return the strength of the password.
@@ -39,12 +38,25 @@ def main():
     # Print introduction.
     print("This is a custom password generator.\n")
 
-    # Request input from the user to generate the password.
-    number_of_characters = get_numerical_input("Please enter the desired number of characters for the password: ")
-    lower_case_choice = get_yes_or_no_input("Do you want lower case letters in the password? (y/n) ")
-    upper_case_choice = get_yes_or_no_input("Do you want upper case letters in the password? (y/n) ")
-    numbers_choice = get_yes_or_no_input("Do you want numbers in the password? (y/n) ")
-    special_characters_choice = get_yes_or_no_input("Do you want special characters in the password? (y/n) ")
+    # Initialize the sentinel values for the user choices.
+    number_of_characters = 0
+    lower_case_choice = "n"
+    upper_case_choice = "n"
+    numbers_choice = "n"
+    special_characters_choice = "n"
+
+    # Request input from the user and make sure there is a character set selected.
+    while lower_case_choice == "n" and upper_case_choice == "n" and numbers_choice == "n" and special_characters_choice == "n":
+
+        # Request input from the user to generate the password.
+        number_of_characters = get_numerical_input("Please enter the desired number of characters for the password: ")
+        lower_case_choice = get_yes_or_no_input("Do you want lower case letters in the password? (y/n) ")
+        upper_case_choice = get_yes_or_no_input("Do you want upper case letters in the password? (y/n) ")
+        numbers_choice = get_yes_or_no_input("Do you want numbers in the password? (y/n) ")
+        special_characters_choice = get_yes_or_no_input("Do you want special characters in the password? (y/n) ")
+
+        if lower_case_choice == "n" and upper_case_choice == "n" and numbers_choice == "n" and special_characters_choice == "n":
+            print("\nYou have not chose any kind of character for the password, please try again.\n")
 
     # Create an empty string that will hold the choices for the characters:
     possible_character_string = ""
@@ -61,14 +73,6 @@ def main():
 
     if special_characters_choice == "y":
         possible_character_string += "!@#$%^&*()_+-=[]{};:,<.>/?"
-
-    if lower_case_choice == "n" and upper_case_choice == "n" and numbers_choice == "n" and special_characters_choice == "n":
-        print("\nIt is impossible to create a password without characters. The program will exit.")
-        sys.exit()
-
-    if number_of_characters <= 0:
-        print("\nIt is impossible to create a password without characters. The program will exit.")
-        sys.exit()
 
     # Create an empty string that will contain the password.
     password = ""

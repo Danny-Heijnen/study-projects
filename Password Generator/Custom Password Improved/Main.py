@@ -17,10 +17,10 @@ def return_strength(number_of_chars, lower, upper, number, special_char):
 
 
 # Request numerical input from the user.
-def get_numerical_input(prompt):
+def get_numerical_input_at_least_1(prompt):
     value = input(prompt)
-    while not value.isnumeric():
-        value = input("You have not entered a number, please enter a number: ")
+    while not value.isnumeric() or int(value) <= 0:
+        value = input("You have not entered a valid number, please enter a number higher than 0: ")
     return int(value)
 
 
@@ -49,7 +49,7 @@ def main():
     while lower_case_choice == "n" and upper_case_choice == "n" and numbers_choice == "n" and special_characters_choice == "n":
 
         # Request input from the user to generate the password.
-        number_of_characters = get_numerical_input("Please enter the desired number of characters for the password: ")
+        number_of_characters = get_numerical_input_at_least_1("Please enter the desired number of characters for the password: ")
         lower_case_choice = get_yes_or_no_input("Do you want lower case letters in the password? (y/n) ")
         upper_case_choice = get_yes_or_no_input("Do you want upper case letters in the password? (y/n) ")
         numbers_choice = get_yes_or_no_input("Do you want numbers in the password? (y/n) ")

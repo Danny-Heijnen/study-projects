@@ -16,7 +16,7 @@ def return_strength(number_of_chars, lower, upper, number, special_char):
         return "weak"
 
 
-# Request numerical input from the user.
+# Request numerical input from the user that is higher than 0.
 def get_numerical_input_at_least_1(prompt):
     value = input(prompt)
     while not value.isnumeric() or int(value) <= 0:
@@ -56,7 +56,7 @@ def main():
         special_characters_choice = get_yes_or_no_input("Do you want special characters in the password? (y/n) ")
 
         if lower_case_choice == "n" and upper_case_choice == "n" and numbers_choice == "n" and special_characters_choice == "n":
-            print("\nYou have not chose any kind of character for the password, please try again.\n")
+            print("\nYou have not chosen any kind of character for the password, please try again.\n")
 
     # Create an empty string that will hold the choices for the characters:
     possible_character_string = ""

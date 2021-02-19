@@ -1,5 +1,5 @@
 # Import OS for clearing the screen in the function encounter(). This is not currently in use, but can be uncommented when using the program in a Linux or Windows terminal.
-#import os
+# import os
 
 
 # Describe a class Player that can be used in the different encounters.
@@ -50,7 +50,7 @@ class Player:
 def encounter(player, room_text, attack_text, flee_text, potion_text):
 
     # Command to clear the terminal screen in Windows and Linux. (Doesn't work in PyCharm, but preferred in a Windows or Linux terminal)
-    #os.system("cls" if os.name == "nt" else "clear")
+    # os.system("cls" if os.name == "nt" else "clear")
 
     # Clear the screen. This is not an elegant solution, but os.system("cls") doesn't work because PyCharm works with a Python shell, not a real Windows terminal.
     print("\n" * 100)
@@ -87,7 +87,8 @@ def encounter(player, room_text, attack_text, flee_text, potion_text):
         print("\n" + flee_text)
     elif action == "3":
         print("\n" + potion_text)
-        player.use_potion() # If the player uses a potion: Increase health, decrease number of potions.
+        # If the player uses a potion: Increase health, decrease number of potions.
+        player.use_potion()
 
 
 # Pause for a moment and allow the player to choose when to proceed to the next room.
@@ -123,5 +124,5 @@ def main():
               "You take a health potion, increasing you health by 1 point.\nYou manage to hold the goblin at bay with you shield and shove him out of the way.\nThen you leave the room, using the door at the far end of the hall.")
     next_encounter()
 
-main()
 
+main()

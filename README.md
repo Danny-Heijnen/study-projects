@@ -1,22 +1,7 @@
 # study-projects
-Small projects to learn the basics
+Small projects to learn the basics. Every new project is be more complex than the previous.
+The projects are sometimes built in incremental steps.
 
-Text Adventure Game:
-
-Creating a small text adventure game to learn new concepts.
-
-Step 1: Ask the user for a choice and print out the result of the choice. 
-
-  Learning goals: If-then statements and requesting input from the user.
-
-Step 2: Add a combat encounter with a random outcome.
-
-  Learning goals: Randomizer function.
-
-Step 3: Introduce a player object with health and a potion to gain back health.
-
-  Learning goals: Working with objects and UML diagrams for objects.
-
-Step 4: Use separate text files for the rooms and several texts like the introduction.
-
-  Learning goals: Basic file handling and working some more with lists and objects.
+Projects in order of creation:
+- Text Adventure Game
+- Password Generator

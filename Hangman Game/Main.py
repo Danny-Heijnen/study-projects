@@ -4,6 +4,15 @@
 import os
 
 
+# Request a player name.
+def get_name(prompt):
+
+    value = input(prompt)
+    while not value.isalpha() or not 0 < len(value) < 40:
+        value = input('Please enter your name with only letters: ')
+    return value
+
+
 # Request a user input of 1 word between 1 and 35 charcters that contains only letters.
 def get_word(prompt):
 
@@ -78,7 +87,7 @@ def main():
     print('Welcome to this game of hangman!\n\nThe rules of the game are as follows:\n')
 
     # Print the rules of the game.
-    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters.Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.')
+    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters. Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.')
 
     # Ask for a keystroke to continue and wish the players good luck.
     input('Good luck and have fun!\n\nPress <enter> to continue.')
@@ -86,9 +95,15 @@ def main():
     # Clear the terminal screen.
     clear_screen()
 
+    player1 = get_name('Player 1, please enter your name: ')
+    player2 = get_name('Player 2, please enter your name: ')
+
+    # Clear the terminal screen.
+    clear_screen()
+
     # Request a target word from Player 1.
-    target_word = get_word(
-        'Player 2, please turn away from the screen.\n\nPlayer 1, please enter a word that player 2 needs to guess: ')
+    target_word = get_word(player2 +
+                           ', please turn away from the screen.\n\n' + player1 + ', please enter a word that ' + player2 + ' needs to guess: ')
     create_guessed_string(target_word)
 
     # Create a guessed_string that has dots for each letter in the target word. This string will be updated to contain the guessed letters.
@@ -107,7 +122,7 @@ def main():
         clear_screen()
 
         # Show the Player who's turn it is.
-        print('Player 2\n')
+        print(player2 + '\n')
 
         # Show the guessed_string.
         print('Target word: ' + guessed_string)
@@ -120,6 +135,11 @@ def main():
 
         # Request a letter from Player 2.
         letter = get_letter('Please enter a letter to guess: ')
+
+        # Make sure the letter is not tried before, if it is, request a new letter.
+        while letter in guessed_letters:
+            letter = get_letter(
+                'You have already tried this letter. Please enter a new letter: ')
 
         # Add the chosen letter to the list of guessed letters
         guessed_letters += letter
@@ -134,9 +154,16 @@ def main():
     # Tell the players who has won the game and what the answer was.
     if check_for_win(target_word, guessed_string):
         print('\nThe word is: ' + guessed_string +
-              '! Player 2 wins! You have guessed the word, congratulations!')
+              '! ' + player2 + ' wins! You have guessed the word, congratulations!')
     else:
-        print('\nThe word is: ' + target_word + '! Player 1 wins! You have guessed too many times.')
+        print('\nThe word is: ' + target_word + '! ' +
+              player1 + ' wins! ' + player2 + ' has guessed too many times.')
+
+    # Press <enter> to end the game.
+    input('\nPress <enter> to quit the game.')
+
+    # Clear the terminal screen.
+    clear_screen()
 
 
 main()

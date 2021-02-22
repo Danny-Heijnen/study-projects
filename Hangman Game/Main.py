@@ -4,6 +4,24 @@
 import os
 
 
+# A player class that has a name and a score.
+class Player:
+    def __init__(self):
+        self.score = 0
+
+    def set_player_name(self, player_name):
+        self.name = player_name
+
+    def get_player_name(self):
+        return self.name
+
+    def give_points(self, points):
+        self.score += points
+
+    def get_points(self):
+        return self.score
+
+
 # Request a player name.
 def get_name(prompt):
 
@@ -31,6 +49,14 @@ def get_letter(prompt):
         value = input('Please enter 1 letter: ').lower()
 
     return value
+
+
+# Request a user input for the amount of rounds.
+def get_number(prompt):
+    value = input(prompt)
+    while not value.isnumeric() or int(value) <= 0:
+        value = input("You have not entered a valid number, please enter a number higher than 0: ")
+    return int(value)
 
 
 # Create a string with dots for each letter in the target word.
@@ -78,32 +104,14 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def main():
-
-    # Clear the terminal screen.
-    clear_screen()
-
-    # Print an intruduction about the game.
-    print('Welcome to this game of hangman!\n\nThe rules of the game are as follows:\n')
-
-    # Print the rules of the game.
-    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters. Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.')
-
-    # Ask for a keystroke to continue and wish the players good luck.
-    input('Good luck and have fun!\n\nPress <enter> to continue.')
-
-    # Clear the terminal screen.
-    clear_screen()
-
-    player1 = get_name('Player 1, please enter your name: ')
-    player2 = get_name('Player 2, please enter your name: ')
-
+# Play 1 round of hangman.
+def play_round(player_a, player_b):
     # Clear the terminal screen.
     clear_screen()
 
     # Request a target word from Player 1.
-    target_word = get_word(player2 +
-                           ', please turn away from the screen.\n\n' + player1 + ', please enter a word that ' + player2 + ' needs to guess: ')
+    target_word = get_word(player_b.get_player_name() +
+                           ', please turn away from the screen.\n\n' + player_a.get_player_name() + ', please enter a word that ' + player_b.get_player_name() + ' needs to guess: ')
     create_guessed_string(target_word)
 
     # Create a guessed_string that has dots for each letter in the target word. This string will be updated to contain the guessed letters.
@@ -122,7 +130,7 @@ def main():
         clear_screen()
 
         # Show the Player who's turn it is.
-        print(player2 + '\n')
+        print(player_b.get_player_name() + '\n')
 
         # Show the guessed_string.
         print('Target word: ' + guessed_string)
@@ -151,19 +159,94 @@ def main():
         if letter not in target_word:
             failed_guesses += 1
 
-    # Tell the players who has won the game and what the answer was.
+    # Update the scores, tell the players who has won the game and what the answer was.
     if check_for_win(target_word, guessed_string):
+        player_b.give_points(1)
         print('\nThe word is: ' + guessed_string +
-              '! ' + player2 + ' wins! You have guessed the word, congratulations!')
+              '! ' + player_b.get_player_name() + ' wins this round! You have guessed the word, congratulations!')
     else:
+        player_a.give_points(1)
         print('\nThe word is: ' + target_word + '! ' +
-              player1 + ' wins! ' + player2 + ' has guessed too many times.')
+              player_a.get_player_name() + ' wins this round! ' + player_b.get_player_name() + ' has guessed too many times.')
 
-    # Press <enter> to end the game.
-    input('\nPress <enter> to quit the game.')
+    # Show the current score.
+    print('\nThe current score is:')
+    print(player1.get_player_name() + ': ' + str(player1.get_points()) + ' points')
+    print(player2.get_player_name() + ': ' + str(player2.get_points()) + ' points')
+
+    global number_of_rounds_left
+    number_of_rounds_left -= 1
+
+    # Show how many rounds are left.
+    print('\nThere are ' + str(number_of_rounds_left) + ' rounds left to play.')
+
+    # Wait for player input to advance to the next round or the score screen.
+    if number_of_rounds_left > 0:
+        input('\nPress <enter> to continue to the next round.')
+    else:
+        input('\nThe game is finished. Press <enter> to continue to the score screen.')
+
+
+def main():
 
     # Clear the terminal screen.
     clear_screen()
+
+    # Print an intruduction about the game.
+    print('Welcome to this game of hangman!\n\nThe rules of the game are as follows:\n')
+
+    # Print the rules of the game.
+    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters. Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.\nThe winner of a round gets 1 point. A full set consists of 2 rounds, so there are 2 points to a set.\nAfter 1 round, the other player may choose a word.\n')
+
+    # Ask for a keystroke to continue and wish the players good luck.
+    input('Good luck and have fun!\n\nPress <enter> to continue.')
+
+    # Clear the terminal screen.
+    clear_screen()
+
+    # Declare 2 global player variables.
+    global player1, player2
+
+    # Create a player object for each player.
+    player1 = Player()
+    player2 = Player()
+
+    # Ask the players to fill in their names.
+    player1.set_player_name(get_name('Player 1, please enter your name: '))
+    player2.set_player_name(get_name('Player 2, please enter your name: '))
+
+    # Ask the players how many sets to play.
+    print('\nA full sets consists of each 2 rounds. After every round the other player chooses a word.\n')
+    number_of_sets = get_number('How many sets do you want to play? ')
+
+    # Declare a global variable for the number of rounds remaining.
+    global number_of_rounds_left
+
+    # Initialize the number of rounds left.
+    number_of_rounds_left = number_of_sets * 2
+
+    # Play a full set where a different player starts every round.
+    for i in range(number_of_sets):
+
+        play_round(player1, player2)
+        play_round(player2, player1)
+
+    # Clear the terminal screen.
+    clear_screen()
+
+    # Show who has won the game.
+    if player1.get_points() > player2.get_points():
+        print(player1.get_player_name() + ' has won the game with ' + str(player1.get_points()) +
+              ' points against ' + str(player2.get_points()) + '. Well done!')
+    elif player2.get_points() > player1.get_points():
+        print(player1.get_player_name() + ' has won the game with ' + str(player2.get_points()) +
+              ' points against ' + str(player1.get_points()) + '. Well done!')
+    elif player1.get_points() == player2.get_points():
+        print('This game is a tie between ' + player1.get_player_name() +
+              ' and ' + player2.get_player_name() + ' with ' + str(player1.get_points()) + ' points each. Well done to both of you!')
+
+    # Wait for a keystroke in order to end the game.
+    input('\nPress <enter> to exit the game.')
 
 
 main()

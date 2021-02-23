@@ -130,7 +130,7 @@ def play_round(player_a, player_b):
         clear_screen()
 
         # Show the Player who's turn it is.
-        print(player_b.get_player_name() + '\n')
+        print(player_b.get_player_name() + ', it is your turn to guess the word.\n')
 
         # Show the guessed_string.
         print('Target word: ' + guessed_string)
@@ -163,7 +163,7 @@ def play_round(player_a, player_b):
     if check_for_win(target_word, guessed_string):
         player_b.give_points(1)
         print('\nThe word is: ' + guessed_string +
-              '! ' + player_b.get_player_name() + ' wins this round! You have guessed the word, congratulations!')
+              '! ' + player_b.get_player_name() + ' wins this round! You have guessed the word!')
     else:
         player_a.give_points(1)
         print('\nThe word is: ' + target_word + '! ' +
@@ -196,7 +196,7 @@ def main():
     print('Welcome to this game of hangman!\n\nThe rules of the game are as follows:\n')
 
     # Print the rules of the game.
-    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters. Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.\nThe winner of a round gets 1 point. A full set consists of 2 rounds, so there are 2 points to a set.\nAfter 1 round, the other player may choose a word.\n')
+    print('Player 1 will choose a word between 1 and 35 characters long.\nPlayer 2 then has to guess the word by choosing letters. Player 2 chooses the letters one by one.\nIf a letter is correct, the game will show where the letter occurs in the word.\nIf a letter is wrong, Player 2 gets a new chance to choose a letter.\nAfter 8 wrong choices the game ends.\n\nPlayer 1 wins if Player 2 has made 8 wrong guesses.\nPlayer 2 wins if the word is guessed correctly with 7 or less wrong guesses.\nThe winner of a round gets 1 point. A full set consists of 2 rounds, so there are 2 points to a set.\nAfter each round, the other player may choose a word.\n')
 
     # Ask for a keystroke to continue and wish the players good luck.
     input('Good luck and have fun!\n\nPress <enter> to continue.')
@@ -247,6 +247,9 @@ def main():
 
     # Wait for a keystroke in order to end the game.
     input('\nPress <enter> to exit the game.')
+
+    # Clear the terminal screen.
+    clear_screen()
 
 
 main()

@@ -22,7 +22,7 @@ def create_wordcloud(text):
     stopwords = set(STOPWORDS)
 
     # create wordcloud object
-    wc = WordCloud(background_color='white', max_words=200, mask=mask, stopwords=stopwords)
+    wc = WordCloud(background_color='black', max_words=200, mask=mask, stopwords=stopwords)
 
     wc.generate(text)
 

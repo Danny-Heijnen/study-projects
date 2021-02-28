@@ -9,14 +9,11 @@ from PIL import Image
 def get_wiki(query):
 
     # Store the first suggested page as the title.
-    # title = wikipedia.search(query, results=3)[0]
     title = wikipedia.search(query, results=3)
     print(title)
 
     # Get the wikipedia page for selected title.
     page = wikipedia.page(query)
-
-    print(page.content)
 
     return page.content
 
@@ -25,7 +22,7 @@ def get_wiki(query):
 def create_wordcloud(text):
 
     # Create an array for the mask.
-    mask = np.array(Image.open('tophat.png'))
+    mask = np.array(Image.open('./Masks/tophat.png'))
 
     # Create a set of stopwords that will be left out of the word cloud.
     stopwords = set(STOPWORDS)
@@ -37,7 +34,7 @@ def create_wordcloud(text):
     wc.generate(text)
 
     # Save the word cloud as a .png file.
-    wc.to_file('output.png')
+    wc.to_file('./Output/wikipedia_cloud_output.png')
 
 
 # Request a topic from the user to make a word cloud with. Note: the user will get an error when there are more than 1 possible pages.

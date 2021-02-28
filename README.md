@@ -6,3 +6,4 @@ Projects in order of creation:
 - Text Adventure Game
 - Password Generator
 - Hangman Game
+- Word Cloud

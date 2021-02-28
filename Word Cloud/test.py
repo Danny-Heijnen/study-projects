@@ -9,11 +9,14 @@ from PIL import Image
 def get_wiki(query):
 
     # Store the first suggested page as the title.
+    # title = wikipedia.search(query, results=3)[0]
     title = wikipedia.search(query, results=3)
     print(title)
 
     # Get the wikipedia page for selected title.
     page = wikipedia.page(query)
+
+    print(page.content)
 
     return page.content
 

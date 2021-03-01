@@ -1,3 +1,0 @@
-decide terminal output for programs
-add comments
-further cleanup

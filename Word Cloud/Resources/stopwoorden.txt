@@ -97,6 +97,7 @@ voor
 voorbij
 wegens
 zijdens
+ook
 zonder
 de
 het
@@ -121,6 +122,8 @@ vandaag
 is
 ben
 zijn
+was
+waren
 worden
 blijven
 hebben

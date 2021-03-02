@@ -1,3 +1,7 @@
+# Text Adventure Game main.py
+# This program is a short game that lets the player play a few rooms in a text adventure.
+
+
 # Import OS for the scandir() function.
 import os
 
@@ -199,7 +203,8 @@ def main():
 
     # Ask the player how many rooms to play and randomly add that many rooms to the playlist.
     while not input_validation1(number_of_rooms):
-        number_of_rooms = input("Please enter a number between 0 and 4 for the number of rooms you want to play: ")
+        number_of_rooms = input(
+            "Please enter a number between 0 and 4 for the number of rooms you want to play: ")
 
     # Convert the string input to an integer.
     number_of_rooms = int(number_of_rooms)

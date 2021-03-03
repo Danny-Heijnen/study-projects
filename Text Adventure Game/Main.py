@@ -84,8 +84,8 @@ class Player:
 # Render an encounter where the player enters a room and makes a choice.
 def encounter(player, room):
 
-    # Clear the screen. This is not an elegant solution, but os.system("cls") doesn't work because PyCharm works with a Python shell, not a real Windows terminal.
-    print("\n" * 100)
+    # Clear the terminal screen.
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     # Tell the user how many hit points are remaining.
     print("Hit points remaining: " + str(player.get_player_health()))
@@ -221,6 +221,12 @@ def main():
 
         # Start the first encounter.
         encounter(player1, room_playlist[i])
+
+        # After the 2nd round, give the player a health potion.
+        if i == 2:
+            player1.add_potion()
+
+        # Go to the next encounter.
         next_encounter()
 
     # Print a victory message.

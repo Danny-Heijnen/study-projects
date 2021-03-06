@@ -9,7 +9,7 @@ import os
 import random
 
 
-# Describe a class Room that will be used in the encounters.
+# A class Room that will be used in the encounters.
 class Room:
 
     # Initialize a Room object to create a Room with 4 texts to use in the encounter.
@@ -40,14 +40,14 @@ class Room:
         return self.flee_fail
 
 
-# Describe a class Player that can be used in the different encounters.
+# A class Player that can be used in the different encounters.
 class Player:
 
-    # TODO: set self.potion back to 0 for the real game.
-    # Initialize a Player object to create a player with 2 health and 0 health potions. This player will be used to play the game.
+    # Initialize a Player object to create a player with 2 health and 0 elixirs.
+    # This player will be used to play the game.
     def __init__(self):
         self.health = 2
-        self.potion = 0
+        self.elixir = 0
 
     # Return the current health of the player.
     def get_player_health(self):
@@ -64,40 +64,36 @@ class Player:
     def deal_damage(self):
         self.health -= 1
 
-    # Decrease the number of potions by 1, and increase the health of the player by 1.
-    def use_potion(self):
-        if self.potion > 0:
+    # Decrease the number of elixirs by 1, and increase the health of the player by 1.
+    def use_elixir(self):
+        if self.elixir > 0:
             self.health += 1
-            self.potion -= 1
+            self.elixir -= 1
 
-    # Check if the player has a potion. Return True if the player has 1 or more potions. Return False if the player has none.
-    def has_potion(self):
-        if self.potion > 0:
+    # Check if the player has the elixir. Return True if the player has 1 or more elixirs. Return False if the player has none.
+    def has_elixir(self):
+        if self.elixir > 0:
             return True
-        if self.potion <= 0:
+        if self.elixir <= 0:
             return False
 
-    # Return the number of potions that the player has.
-    def get_potions(self):
-        return self.potion
-
-    # Add 1 potion to the inventory of the player.
-    def add_potion(self):
-        self.potion += 1
+    # Add 1 elixir to the inventory of the player.
+    def add_elixir(self):
+        self.elixir += 1
 
 
-# TODO:
-def find_potion(player):
+# Let the player find the elixir
+def find_elixir(player):
 
-    player.add_potion()
+    player.add_elixir()
 
-    print("In the room you also find the famous health potion that you have been looking for.\nThe red liquid is so bright, it seems to glow.\nYou notice small glimmers of light or reflecions, it is hard to tell, but the sight is mesmerizing.\nYou carefully place the health potion in your bag.\n")
+    print("\nIn this room you find the famous elixir that you have been looking for.\nThe red liquid is so bright, it seems to glow.\nYou notice small glimmers of light or reflecions, it is hard to tell, but the sight is mesmerizing.\nYou carefully place the elixir in your bag.\n")
 
 
 # TODO:
-def use_potion(player):
+def use_elixir(player):
 
-    player.use_potion()
+    player.use_elixir()
 
     print("\nYou pull out the health potion and look at it.\nYou realize that this is the reason you came to this dungeon in the first place.\nBut you also know that you need it to survive.\n\nYou drink the life-giving red fluid and feel your life force return.")
 
@@ -176,7 +172,7 @@ def create_room_playlist():
 
 
 # Render an encounter where the player enters a room and makes a choice.
-def encounter(player, room, room_index, final_room_index):
+def play_encounter(player, room, room_index, final_room_index):
 
     # Clear the terminal screen.
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -184,35 +180,35 @@ def encounter(player, room, room_index, final_room_index):
     # Tell the user how many hit points are remaining.
     print("Hit points remaining: " + str(player.get_player_health()))
 
+    # Give the player a health potion at the start of room 2.
+    if room_index == 1:
+        find_elixir(player)
+
     # TODO:
-    if player.get_potions() == 1:
-        print("You have " + str(player.get_potions()) + " potion left.")
+    if player.has_elixir():
+        print("You have the elixir in your posession.")
     else:
-        print("You have no more health potions.")
+        print("You don't have the elixir.")
 
     # Print the description of the current room or situation.
     print("\n" + room.get_text_description() + "\n")
-
-    # Give the player a health potion at the start of room 2.
-    if room_index == 1:
-        find_potion(player)
 
     # Describe the choice to attack or flee.
     print("You can perform the following actions:\n(1) Attack the creature\n(2) Flee from the creature")
 
     # If the player has at least 1 potion, give the option to take a potion.
-    if player.has_potion():
-        print("(3) Use the health potion")
+    if player.has_elixir():
+        print("(3) Use the elixir")
 
     # Set a sentinel value for action.
     action = "a"
 
     # Request an action from the player.
-    if player.has_potion():
+    if player.has_elixir():
         while not input_validation2(action):
             action = input("\nWhat action do you want to take? ")
 
-    if not player.has_potion():
+    if not player.has_elixir():
         while not input_validation3(action):
             action = input("\nWhat action do you want to take? ")
 
@@ -220,7 +216,7 @@ def encounter(player, room, room_index, final_room_index):
 
     # TODO:
     if action == 3:
-        use_potion(player)
+        use_elixir(player)
 
         # Set a sentinel value for action.
         action = "a"
@@ -242,16 +238,16 @@ def encounter(player, room, room_index, final_room_index):
 def win_loss_draw(player):
 
     # Indicate that the player has won the game.
-    if player.get_player_health() > 0 and player.has_potion():
-        print("\nVictory! You escaped the dungeon with your life and the health potion.")
+    if player.is_player_alive() and player.has_elixir():
+        print("\nVictory! You escaped the dungeon with your life and the elixir!")
         input("\nPress <enter> to exit the program and continue your adventures.")
     # Indicate a loss.
-    elif player.get_player_health() <= 0:
+    elif not player.is_player_alive():
         print("\nYou died. The game is over.")
         input("\nPress <enter> to exit the program.")
     # Indicate a draw.
-    elif player1.get_player_health() > 0 and not player.has_potion():
-        print("\nYou have escaped the dungeon with your life. But you had to leave the health potion behind.")
+    elif player.is_player_alive() and not player.has_elixir():
+        print("\nYou have escaped the dungeon with your life. But you don't have the elixir.")
         input("\nPress <enter> to exit the program and continue your adventures.")
 
 
@@ -304,6 +300,12 @@ def main():
     # Create a player
     player1 = Player()
 
+    # Print the introduction of the game to the player.
+    print("Welcome, adventurer, to the dungeon of hope and despair.\nNot just despair? Oh no dear traveler, hope and despair.\nFor in this dungeon can be found the elixer of(a little bit more) life.\nOne sip of this miraculous health-restoring potion can moderately increase your health.\nUnfortunately the small flask only holds one sip...\nAnd the dungeon houses many dangerous creatures.\n\nWill you be able to find the elixer and escape the dungeon with your life?\nOr perhaps you will need the elixer just to survive the horrors that await you, \nleaving you as empty-handed as when you started, but at least with a beathing heart in your body.\nOnly time will tell...\n\nVenture forth, adventurer, and let's see how your story unfolds.\n")
+
+    # Allow the player to start the game when he/she/it is ready.
+    input("Press <enter> to start the game.\n")
+
     # Create a room_playlist.
     room_playlist = create_room_playlist()
 
@@ -311,7 +313,7 @@ def main():
     for i in range(len(room_playlist)):
 
         # Play the next encounter.
-        encounter(player1, room_playlist[i], i, len(room_playlist))
+        play_encounter(player1, room_playlist[i], i, len(room_playlist))
 
         # Stop playing if the player's health reaches 0 after a round.
         if player1.get_player_health() <= 0:
@@ -320,7 +322,7 @@ def main():
         # Ask to proceed to the next room if the game is not finished.
         if i < len(room_playlist) - 1:
             # Request an <enter> to proceed to the next room.
-            input("\nPress <enter> to advance to the next room:")
+            input("\nPress <enter> to advance to the next room.")
 
     # Check if the player has won, lost or drew the game.
     win_loss_draw(player1)

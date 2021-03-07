@@ -82,28 +82,35 @@ class Player:
         self.elixir += 1
 
 
-# Let the player find the elixir
+# Let the player find the elixir.
 def find_elixir(player):
 
+    # Give an elixir to the player.
     player.add_elixir()
 
+    # Print a message that indicates that an elixir has been found.
     print("\nIn this room you find the famous elixir that you have been looking for.\nThe red liquid is so bright, it seems to glow.\nYou notice small glimmers of light or reflecions, it is hard to tell, but the sight is mesmerizing.\nYou carefully place the elixir in your bag.\n")
 
 
-# TODO:
+# Let the player use an elixir.
 def use_elixir(player):
 
+    # Remove an elixir from the player.
     player.use_elixir()
 
+    # Print a message to indicate that an elixir has been used and the effect on the hit points of the player.
     print("\nYou pull out the health potion and look at it.\nYou realize that this is the reason you came to this dungeon in the first place.\nBut you also know that you need it to survive.\n\nYou drink the life-giving red fluid and feel your life force return.")
 
     print("\nYour remaining hit points are now: " + str(player.get_player_health()))
 
 
+# Perform an attack action.
 def attack_action(player, room):
 
+    # Determine the chance of a succesful attack. Current ration is 2/4, or 50%.
     chance = random.randrange(4)
 
+    # Depending on the outcome, determine if the attack was succesful. If not, reduce the hit points by 1.
     if chance < 2:
         print("\n" + room.get_text_attack_success())
     else:
@@ -111,10 +118,13 @@ def attack_action(player, room):
         print("\n" + room.get_text_attack_fail())
 
 
+# Perform a flee action.
 def flee_action(player, room):
 
+    # Determine the chance of a succesful flight. Current ratio is 3/4, or 75%.
     chance = random.randrange(4)
 
+    # Depending on the outcome, determine if the flight was succesful. If not, reduce the hit points by 1.
     if chance < 3:
         print("\n" + room.get_text_attack_success())
     else:
@@ -184,7 +194,7 @@ def play_encounter(player, room, room_index, final_room_index):
     if room_index == 1:
         find_elixir(player)
 
-    # TODO:
+    # Let the player know whether (s)he has an elixir.
     if player.has_elixir():
         print("You have the elixir in your posession.")
     else:
@@ -214,7 +224,7 @@ def play_encounter(player, room, room_index, final_room_index):
 
     action = int(action)
 
-    # TODO:
+    # If the player chooses to drink an elixir, perform that action and request the next action.
     if action == 3:
         use_elixir(player)
 
@@ -303,7 +313,7 @@ def main():
     # Print the introduction of the game to the player.
     print("Welcome, adventurer, to the dungeon of hope and despair.\nNot just despair? Oh no dear traveler, hope and despair.\nFor in this dungeon can be found the elixer of(a little bit more) life.\nOne sip of this miraculous health-restoring potion can moderately increase your health.\nUnfortunately the small flask only holds one sip...\nAnd the dungeon houses many dangerous creatures.\n\nWill you be able to find the elixer and escape the dungeon with your life?\nOr perhaps you will need the elixer just to survive the horrors that await you, \nleaving you as empty-handed as when you started, but at least with a beathing heart in your body.\nOnly time will tell...\n\nVenture forth, adventurer, and let's see how your story unfolds.\n")
 
-    # Allow the player to start the game when he/she/it is ready.
+    # Allow the player to start the game when (s)he is ready.
     input("Press <enter> to start the game.\n")
 
     # Create a room_playlist.
@@ -324,7 +334,7 @@ def main():
             # Request an <enter> to proceed to the next room.
             input("\nPress <enter> to advance to the next room.")
 
-    # Check if the player has won, lost or drew the game.
+    # Check if the game is a win, loss or draw for the player.
     win_loss_draw(player1)
 
 

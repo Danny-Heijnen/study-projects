@@ -1,6 +1,5 @@
 # study-projects
-Small projects to learn the basics. Every new project is be more complex than the previous.
-The projects are sometimes built in incremental steps.
+Small projects to learn the basics.
 
 Projects in order of creation:
 - Text Adventure Game

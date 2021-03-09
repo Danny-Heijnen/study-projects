@@ -44,7 +44,7 @@ class Room:
 class Player:
 
     # Initialize a Player object to create a player with 2 health and 0 elixirs.
-    # This player object will be used to play the game.
+    # This player will be used to play the game.
     def __init__(self):
         self.health = 2
         self.elixir = 0

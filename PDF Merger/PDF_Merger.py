@@ -1,10 +1,8 @@
 import os
 from PyPDF2 import PdfFileMerger
 
-print("This program will take multiple PDF files and merge them together into one document.\n\nIn order to do this, create a folder and place the separate PDF files into the folder.\nThen rename the files 1, 2, 3 ...  in the order you want to merge them.\nMake sure this program is in the same folder.")
-
-print("\nIf you have already prepared the folder and filenames, enter 'y' to create the merged PDF.\nIf you have not prepared, please enter 'n' and restart the program when you're done.")
-
+print("This program will take multiple PDF documents and merge them together into one document.\n\nStep 1. Create a folder and copy the PDF documents that you want to merge into that folder.\nStep 2. Change the file name of the documents to 1, 2, 3 ... in the required order.\nStep 3. Place this program (PDF_Merger.exe) in the same folder.\nStep 4. Start this program and enter 'y' to merge the PDF documents.\nThe new document will be placed in this folder with the name 'result.pdf'.")
+print("\nIf you have not done step 1 to 3, please enter 'n' and restart the program when you're done with the preparation.")
 print("\nNote: You will likely get a message saying 'PdfReadWarning'. This is not an error, the message can be ignored.")
 
 answer = ""

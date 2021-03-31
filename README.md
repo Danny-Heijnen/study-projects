@@ -6,3 +6,4 @@ Current projects:
 - Password Generator
 - Hangman Game
 - Word Cloud
+- PDF Merger

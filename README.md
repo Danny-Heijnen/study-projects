@@ -1,7 +1,7 @@
 # study-projects
 Small projects to learn the basics.
 
-Projects in order of creation:
+Current projects:
 - Text Adventure Game
 - Password Generator
 - Hangman Game

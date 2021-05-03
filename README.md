@@ -7,3 +7,4 @@ Current projects:
 - Hangman Game
 - Word Cloud
 - PDF Merger
+- Meditation Session Generator
